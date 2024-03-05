@@ -5,11 +5,11 @@ class Player:
     def __init__(self, name, player_class):
         self.name = name
         self.player_class = player_class
-        self.health = 100
+        self.health = 0
         self.mana = 0  # Mana for all classes
         self.max_mana = 0  # Maximum mana for all classes
-        self.attack_damage = 10
-        self.special_attack_damage = 20
+        self.attack_damage = 0
+        self.special_attack_damage = 0
         self.defense = 0
         self.inventory = {
             'health_potions': 3,
@@ -17,19 +17,28 @@ class Player:
         }
 
         # Set stats and special attacks based on class
-        if self.player_class == "Warrior":
+        if self.player_class == "Warrior"
+            self.health = 100
+            self.attack_damage = 15
+            self.special_attack_damage = 20
             self.defense = 10
             self.mana = 20
             self.max_mana = 20
             self.attack1_name = "Sword Slash"
             self.attack2_name = "Shield Bash"
         elif self.player_class == "Mage":
+            self.health = 65
+            self.attack_damage = 12
+            self.special_attack_damage = 30
             self.defense = 5
             self.mana = 50
             self.max_mana = 50
             self.attack1_name = "Arcane Bolt"
             self.attack2_name = "Ice Shard"
         elif self.player_class == "Rogue":
+            self.health = 80
+            self._attack_damage = 13
+            self.special_attack_damage = 24
             self.defense = 3
             self.mana = 30
             self.max_mana = 30
