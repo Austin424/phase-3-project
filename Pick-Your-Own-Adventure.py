@@ -1,101 +1,125 @@
 import time
 import random
+import functools
 
-class Player:
-    def __init__(self, name, player_class):
+class Character:
+    def __init__(self, name, health, mana, max_mana, attack_damage, special_attack_damage, defense):
         self.name = name
-        self.player_class = player_class
-        self.health = 0
-        self.mana = 0  # Mana for all classes
-        self.max_mana = 0  # Maximum mana for all classes
-        self.attack_damage = 0
-        self.special_attack_damage = 0
-        self.defense = 0
+        self.health = health
+        self.mana = mana
+        self.max_mana = max_mana
+        self.attack_damage = attack_damage
+        self.special_attack_damage = special_attack_damage
+        self.defense = defense
         self.inventory = {
             'health_potions': 3,
             'mana_potions': 3
         }
-
-        # Set stats and special attacks based on class
-        if self.player_class == "Warrior"
-            self.health = 100
-            self.attack_damage = 15
-            self.special_attack_damage = 20
-            self.defense = 10
-            self.mana = 20
-            self.max_mana = 20
-            self.attack1_name = "Sword Slash"
-            self.attack2_name = "Shield Bash"
-        elif self.player_class == "Mage":
-            self.health = 65
-            self.attack_damage = 12
-            self.special_attack_damage = 30
-            self.defense = 5
-            self.mana = 50
-            self.max_mana = 50
-            self.attack1_name = "Arcane Bolt"
-            self.attack2_name = "Ice Shard"
-        elif self.player_class == "Rogue":
-            self.health = 80
-            self._attack_damage = 13
-            self.special_attack_damage = 24
-            self.defense = 3
-            self.mana = 30
-            self.max_mana = 30
-            self.attack1_name = "Dagger Throw"
-            self.attack2_name = "Shadow Strike"
+        self.level = 1
+        self.experience = 0
+        self.gold = 0
+        self.inventory_size = 10
+        self.strength = 10
+        self.intelligence = 10
+        self.agility = 10
 
     def display_info(self):
         print(f"Name: {self.name}")
-        print(f"Class: {self.player_class}")
         print(f"Health: {self.health}")
         print(f"Mana: {self.mana}/{self.max_mana}")
         print("Inventory:", self.inventory)
 
     def perform_special_attack(self, enemy):
+        pass
+
+    def perform_attack1(self, enemy):
+        pass
+
+    def perform_attack2(self, enemy):
+        pass
+
+class Warrior(Character):
+    def __init__(self, name):
+        super().__init__(name, health=100, mana=20, max_mana=20, attack_damage=10,
+                         special_attack_damage=20, defense=10)
+        self.strength = 15
+        self.agility = 5
+        self.attack1_name = "Sword Slash"
+        self.attack2_name = "Shield Bash"
+
+    def perform_special_attack(self, enemy):
         if self.mana >= 20:
-            if self.player_class == "Warrior":
-                print(f"{self.name} performs a powerful cleave attack!")
-                enemy.health -= self.special_attack_damage
-            elif self.player_class == "Mage":
-                print(f"{self.name} casts a fireball at {enemy.name}!")
-                enemy.health -= self.special_attack_damage
-            elif self.player_class == "Rogue":
-                print(f"{self.name} executes a deadly backstab on {enemy.name}!")
-                enemy.health -= self.special_attack_damage
+            print(f"{self.name} performs a powerful cleave attack!")
+            enemy.health -= self.special_attack_damage
             self.mana -= 20
         else:
             print("Not enough mana to perform a special attack!")
 
     def perform_attack1(self, enemy):
-        if self.player_class == "Warrior":
-            damage = self.attack_damage + 5
-            print(f"{self.name} performs a {self.attack1_name}!")
-            enemy.health -= damage
-        elif self.player_class == "Mage":
-            damage = self.attack_damage + 3
-            print(f"{self.name} casts {self.attack1_name} at {enemy.name}!")
-            enemy.health -= damage
-            self.mana -= 5
-        elif self.player_class == "Rogue":
-            damage = self.attack_damage + 4
-            print(f"{self.name} throws a {self.attack1_name} at {enemy.name}!")
-            enemy.health -= damage
+        damage = self.attack_damage + 5
+        print(f"{self.name} performs a {self.attack1_name}!")
+        enemy.health -= damage
 
     def perform_attack2(self, enemy):
-        if self.player_class == "Warrior":
-            damage = self.attack_damage + 7
-            print(f"{self.name} performs a {self.attack2_name}!")
-            enemy.health -= damage
-        elif self.player_class == "Mage":
-            damage = self.attack_damage + 4
-            print(f"{self.name} casts {self.attack2_name} at {enemy.name}!")
-            enemy.health -= damage
-            self.mana -= 8
-        elif self.player_class == "Rogue":
-            damage = self.attack_damage + 6
-            print(f"{self.name} executes a {self.attack2_name} on {enemy.name}!")
-            enemy.health -= damage
+        damage = self.attack_damage + 7
+        print(f"{self.name} performs a {self.attack2_name}!")
+        enemy.health -= damage
+
+class Mage(Character):
+    def __init__(self, name):
+        super().__init__(name, health=100, mana=50, max_mana=50, attack_damage=10,
+                         special_attack_damage=20, defense=5)
+        self.intelligence = 20
+        self.agility = 5
+        self.attack1_name = "Arcane Bolt"
+        self.attack2_name = "Ice Shard"
+
+    def perform_special_attack(self, enemy):
+        if self.mana >= 20:
+            print(f"{self.name} casts a fireball at {enemy.name}!")
+            enemy.health -= self.special_attack_damage
+            self.mana -= 20
+        else:
+            print("Not enough mana to perform a special attack!")
+
+    def perform_attack1(self, enemy):
+        damage = self.attack_damage + 3
+        print(f"{self.name} casts {self.attack1_name} at {enemy.name}!")
+        enemy.health -= damage
+        self.mana -= 5
+
+    def perform_attack2(self, enemy):
+        damage = self.attack_damage + 4
+        print(f"{self.name} casts {self.attack2_name} at {enemy.name}!")
+        enemy.health -= damage
+        self.mana -= 8
+
+class Rogue(Character):
+    def __init__(self, name):
+        super().__init__(name, health=100, mana=30, max_mana=30, attack_damage=10,
+                         special_attack_damage=20, defense=3)
+        self.agility = 20
+        self.strength = 5
+        self.attack1_name = "Dagger Throw"
+        self.attack2_name = "Shadow Strike"
+
+    def perform_special_attack(self, enemy):
+        if self.mana >= 20:
+            print(f"{self.name} executes a deadly backstab on {enemy.name}!")
+            enemy.health -= self.special_attack_damage
+            self.mana -= 20
+        else:
+            print("Not enough mana to perform a special attack!")
+
+    def perform_attack1(self, enemy):
+        damage = self.attack_damage + 4
+        print(f"{self.name} throws a {self.attack1_name} at {enemy.name}!")
+        enemy.health -= damage
+
+    def perform_attack2(self, enemy):
+        damage = self.attack_damage + 6
+        print(f"{self.name} executes a {self.attack2_name} on {enemy.name}!")
+        enemy.health -= damage
 
 class Enemy:
     def __init__(self, name, health, attack_damage, defense):
@@ -118,15 +142,25 @@ def choose_class():
     print("3. Rogue")
     choice = input("Enter the number of your class: ")
     if choice == "1":
-        return "Warrior"
+        return Warrior
     elif choice == "2":
-        return "Mage"
+        return Mage
     elif choice == "3":
-        return "Rogue"
+        return Rogue
     else:
         print("Invalid choice. Please try again.")
         return choose_class()
 
+@functools.wraps
+def error_handler(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+    return wrapper
+
+@error_handler
 def battle(player, enemy):
     print(f"A wild {enemy.name} appears!")
     while player.health > 0 and enemy.health > 0:
@@ -194,7 +228,7 @@ def cave(player):
         print("You enter the temple cautiously, sensing a powerful presence within...")
 
 def battle_boss(player):
-    boss = Enemy("Evil Boss", 120, 20, 15)  # Example boss with higher defense
+    boss = Enemy("Evil Boss", 200, 20, 15)  # Example boss with higher defense
     print("\nYou confront the Evil Boss!")
     time.sleep(1)
     print("This is the final battle, prepare yourself!")
@@ -207,7 +241,7 @@ def play_game():
     if choice == "yes":
         name = input("Enter your name: ")
         player_class = choose_class()
-        player = Player(name, player_class)
+        player = player_class(name)
         player.display_info()
         cave(player)
         if player.health > 0:
@@ -229,6 +263,9 @@ enemies = [
     Enemy("Troll", 90, 15, 6),
     Enemy("Witch", 80, 13, 3)
 ]
+
+play_game()
+
 
 play_game()
 
