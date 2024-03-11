@@ -1,4 +1,4 @@
-### using my knowledge, only examples and ai to help smooth the rought edges, i made a pick your own adventure game purely in the CLI
+### using my knowledge,online examples and ai to help smooth the rought edges, i made a pick your own adventure game purely in the CLI
 
 ## you get to choose between 3 classes your cliche RPG 3: Warrior, Rouge and Mage
 
